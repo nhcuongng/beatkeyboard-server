@@ -19,7 +19,6 @@ module.exports = function(app) {
     app.get('/logout', function(req, res) {
         console.log(req.session)
         req.logOut();
-        console.log(req.session)
         req.session.destroy();
         res.redirect(url.urlClient);
     });

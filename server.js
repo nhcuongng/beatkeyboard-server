@@ -1,7 +1,7 @@
 var express  = require('express');
 var app      = express();
 // var io = require('socket.io')();
-var port     =  8080;
+const port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var cors = require('cors')
@@ -24,7 +24,7 @@ var configDB = require('./config/database.js');
 //   });
 mongoose.connect(configDB.url); // connect to our database
 // allow cors with credential
-app.use(cors({ origin:"http://localhost:3000", credentials:true }))
+app.use(cors({ origin:"https://beatkeyboard.herokuapp.com", credentials:true }))
 app.use(cookieParser()); // read cookies (needed for auth)
 require('./config/passport')(passport); // pass passport for configuration
 
