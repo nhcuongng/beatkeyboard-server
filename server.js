@@ -39,4 +39,7 @@ app.use(passport.session()); // persistent login sessions
 require('./app/routes.js')(app); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
-app.listen(port);
+app.listen(port, (err) =>{
+    if(err) console.log(err)
+    else console.log("Listen at " + port)
+});
