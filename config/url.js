@@ -4,6 +4,6 @@ module.exports = {
     // 'urlServer': 'https://beatkeyboard-server.herokuapp.com'
 
     // on localhost
-    'urlClient': 'http://localhost:3000',
-    'urlServer': 'http://localhost:8080'
+    "urlClient": 'http://localhost:3000',
+    "urlServer": 'http://localhost:8080'
 }

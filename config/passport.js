@@ -30,15 +30,17 @@ module.exports = function(passport) {
 
         // asynchronous
         process.nextTick(function() {
-            
+
             // check if the user is already logged in
             if (!req.user) {
-                console.log(profile.id)
+
                 User.findOne({ 'id' : profile.id }, function(err, user) {
                     if (err)
                         return done(err);
 
                     if (user) {
+                        console.log(user.image)
+
                         // if there is a user id already but no token (user was linked at one point and then removed)
                         if (!user.token) {
                             user.token = token;
