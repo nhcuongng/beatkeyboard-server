@@ -9,7 +9,7 @@ var url = require('../../config/url')
  // handle the callback after facebook has authenticated the user
  router.get('/callback',
      passport.authenticate('facebook', {
-         successRedirect : 'https://beatkeyboard.herokuapp.com', // success then redirect to clienthost/profile
+         successRedirect : "https://beatkeyboard.herokuapp.com", // success then redirect to clienthost/profile
          failureRedirect : '/'
      }));
 
