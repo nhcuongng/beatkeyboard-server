@@ -1,9 +1,7 @@
 const url = require('../config/url')
 const ApiFacebook = require('../api/loginfacebook/routeFacebook')
-var cookie = require('cookie');
-var EventEmitter = require("events").EventEmitter;
-var userLogged = new EventEmitter(); // use to get username is logged in
 var count= 1, countRoom=1;
+var roomInfor = []
 
 module.exports = function(app, io) {
     // show the home page (will also have our login links)
@@ -13,9 +11,8 @@ module.exports = function(app, io) {
 
     io.on('connection', (socket) => {
         var room = '#Battleroyal ' + count;
-        // // Join to room and limit 2 members in one room (rooms is difference)
+        // Join to room and limit 2 members in one room (rooms is difference)
         console.log(socket.id + " đã kết nối")
-
         // check when user exit room
         socket.on('disconnect', () => {
             console.log(socket.id + "đã thoát")
@@ -28,6 +25,10 @@ module.exports = function(app, io) {
             countRoom++
           })
           if(countRoom % 4 === 0){
+            // var room = io.sockets.adapter.rooms[room];
+            // if(room.length < 2){
+            //     socket.join(room)
+            // }
             count++
           }
 
@@ -35,27 +36,26 @@ module.exports = function(app, io) {
           socket.on('user1-send-to-server',(data) => {   
             socket.broadcast.to(room).emit("server-send-to-user2",data) // send to other client in room
           })
-          socket.on("getid", (abc) =>{
-              socket.emit("get-id-success", abc) 
-          })
-           console.log(Object.keys( io.sockets.adapter.sids[socket.id] ))
+
+          // Waiting users connect to server
+          // Delay time is 3.5s
            socket.on("looking-for-opponent",(data) =>{
-            console.log(data.socketId + " is a socketid ")
-             if(socket.id !== data.socketId){
-                userLogged.on('get', () => {
-                    socket.emit("success", { nameUser: userLogged.data })
-                 })
-             }else{
-                socket.emit("success", { nameUser: "Waiting...."})
-             }
-           })      
+                if(data.nameUser !== " "){
+                    roomInfor.push(data.nameUser) // wwhen user is not log: nameUser is ""
+                }
+                // send user and nameRoom to client after delay time
+                setTimeout(()=> {
+                    roomInfor.push(room)
+                    socket.emit('success', roomInfor)          
+                }, 3500)
+            })
+            // reset list of user when event end
+            roomInfor = []   
     })
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
         // get user from session and send to client
-        userLogged.data = req.user.name;
-        userLogged.emit('get');
         res.send({ user: req.user })
     });
 

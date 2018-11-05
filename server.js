@@ -22,30 +22,9 @@ app.use(session({
 }));
 
 
-
-
-
-// function bot(socket,room) {
-//   console.log('đây là bot game')
-//   io.engine.generateId = (req) => {
-//     return "daylabotgamebeatkeys"
-//   }
-//   socket.join(room)
-//   const characters = ["a","b", "c", "d","e","f", "g", "h","i","j", "k", "l","m","n","o","p", "q", "r","s","t", "v", "x","y","z", 
-//                       "1", "2","3","4", "5", "6","7","8", "9", "10"
-//                       ,"[","]", "{", "}","<",">", "?", "=","+","_", "\\", "/",":","", "'", " ","`","~"]
-  
-    
-//   socket.on('user1-send-to-server',() => {
-//       socket.broadcast.to(room).emit("server-send-to-user2",characters[Math.floor(Math.random() * characters.length)+1]) // send to other client in room
-//     })
-
-// }
-
-
 mongoose.connect(configDB.url); // connect to our database
 // allow cors with credential
-app.use(cors({ origin:"https://beatkeyboard.herokuapp.com", credentials:true }))
+app.use(cors({ origin:"http://localhost:3000", credentials:true }))
 app.use(cookieParser()); // read cookies (needed for auth)
 require('./config/passport')(passport); // pass passport for configuration
 
